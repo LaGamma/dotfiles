@@ -11,6 +11,8 @@ RUN apt-get install -y curl apt-transport-https && \
     apt-get update && \
     apt-get install -y modular python3.11-venv
 
+# for gpu things
+RUN apt-get install -y libglu1-mesa-dev libegl-dev libx11-dev
 
 USER underpriv
 
