@@ -1,8 +1,10 @@
+cd ~
 # depends on many things, including ncurses
 git clone https://github.com/python/cpython.git
 cd cpython/
 ./configure --prefix=$HOME/.local --enable-optimizations
-make -s -j16 && make test && make install
+make -s -j16 && make install
+# can add make test before make install if you want to test python
 
 echo "export PATH=$PATH:~/.local/bin" >> ~/.bashrc
 source ~/.bashrc

@@ -19,3 +19,7 @@ RUN useradd -m --uid 1000 --user-group -s /bin/bash underpriv
 USER underpriv
 
 COPY --chmod=777 ./local_install.sh /home/underpriv/local_install.sh
+
+RUN /home/underpriv/local_install.sh
+
+RUN echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc

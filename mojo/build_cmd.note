@@ -1,0 +1,2 @@
+#
+# podman buildx build -t mojo_box --build-arg MODULAR_AUTH=<your_key>
