@@ -1,0 +1,9 @@
+[submodule ".vim/pack/default/start/gruvbox"]
+	path = .vim/pack/default/start/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
+[submodule ".vim/pack/default/start/rust.vim"]
+	path = .vim/pack/default/start/rust.vim
+	url = https://github.com/rust-lang/rust.vim.git
+[submodule ".vim/plugged/coc.nvim"]
+	path = .vim/plugged/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git
