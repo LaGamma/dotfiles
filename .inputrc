@@ -1,0 +1,7 @@
+set editing-mode vi
+
+# vi setting
+$if mode=vi
+    set keymap vi-insert
+    "hjkl" # remap escape
+$endif
