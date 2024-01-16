@@ -25,5 +25,3 @@ RUN modular auth $MODULAR_AUTH && \
     echo 'export MODULAR_HOME=/home/underpriv/.modular' >> ~/.bashrc
 
 COPY --chmod=777 ./setup_env.sh /home/underpriv/setup_env.sh
-
-RUN /home/underpriv/setup_env.sh

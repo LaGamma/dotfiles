@@ -5,6 +5,9 @@ set viminfo=%,<800,'10,/50,:100,h,f0
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'benmills/vimux'
+Plug 'lervag/vimtex'
 
 call plug#end()
 
@@ -169,6 +172,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 
 set mouse=a
+set ttymouse=sgr
 syntax on
 
 set tabstop=4
@@ -186,3 +190,24 @@ set hlsearch
 
 autocmd vimenter * ++nested colorscheme gruvbox
 set background=dark
+
+" vv to generate new verical split
+nnoremap <silent> vv <C-w>v
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+set splitbelow
+set splitright
+
+" vimux config
+" Prompt for a command to run
+map <silent>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <silent>vl :VimuxRunLastCommand<CR>
+" Inspect runner pane (jump into copymode)
+map <silent>vi :VimuxInspectRunner<CR>
+" Zoom the tmux runner pane
+map <silent>vz :VimuxZoomRunner<CR>
