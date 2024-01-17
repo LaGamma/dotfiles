@@ -190,6 +190,7 @@ set hlsearch
 
 autocmd vimenter * ++nested colorscheme gruvbox
 set background=dark
+let g:gruvbox_contrast_dark = 'hard'
 
 " vv to generate new verical split
 nnoremap <silent> vv <C-w>v
@@ -211,3 +212,8 @@ map <silent>vl :VimuxRunLastCommand<CR>
 map <silent>vi :VimuxInspectRunner<CR>
 " Zoom the tmux runner pane
 map <silent>vz :VimuxZoomRunner<CR>
+
+augroup ActiveWin | au!
+    au WinEnter * setl wincolor=
+    au WinLeave * setl wincolor=CursorLine
+augroup END
