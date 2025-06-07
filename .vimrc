@@ -1,29 +1,58 @@
-set nocompatible
-set encoding=utf-8
-set viminfo=%,<800,'10,/50,:100,h,f0
-
+" install plugins
+" :PlugInstall
+" a fancy way to simply :
+" `git clone https://github.com/<plugin_uri> ~/.vim/plugged/<plugin_repo>`
+" TODO deprecate and limit use to submodules
 call plug#begin('~/.vim/plugged')
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'benmills/vimux'
-Plug 'lervag/vimtex'
-
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'npm ci'}
+Plug 'puremourning/vimspector'
 call plug#end()
 
-let g:rustfmt_autosave = 1
-let g:rustfmt_emit_files = 1
-let g:rustfmt_fail_silently = 0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""             Base Config
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible    " enable non-vi compatible features
+set encoding=utf-8
+syntax on
+set background=dark
+let g:gruvbox_contrast_dark = 'hard'
+silent! colorscheme gruvbox
+set spell           " use a dictionary to spellcheck
+set spelllang=en_us
+hi SpellBad cterm=underline
+set backspace=indent,eol,start " backspace over everything in insert mode
+set mouse=a         " enable mouse support in all modes
+set ttymouse=sgr    " emit SGR mouse codes - backward compat with xterm2
+set tabstop=8       " how many cols to display tab bytes
+set shiftwidth=4    " num spaces used in autoindent commands (>>)
+"set softtabstop=4   " how many cols to add/del in insertion (-1 == shiftwidth)
+set expandtab       " insert spaces when using tab
+set autoindent      " copy indentation from previous line
+filetype plugin indent on " filetype aware indentation rules
+"set smartindent    " basic C-like identing deprecated by above
+"set smarttab       " only meaningful if expandtab & softtabstop != shiftwidth
+set incsearch       " incrementally display results of search as typing
+set ignorecase      " case insensitive searching
+set smartcase       " case sensitive if includes at least one uppercase letter
+set hlsearch        " highlight all matches of search
+set updatetime=300  " default 4000 ms leads to delays for CursorHold events
+set signcolumn=yes  " always show or diagnostics would shift text
+set colorcolumn=80  " mark col as a soft-limit/length warning
+"set cmdheight=2
+set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
+"           | |    |   |   |    | |  + viminfo file path
+"           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
+"           | |    |   |   |    + disable 'hlsearch' loading viminfo
+"           | |    |   |   + command-line history saved
+"           | |    |   + search history saved
+"           | |    + files marks saved
+"           | + lines saved each register (new name for ", vi6.2)
+"           + save/restore buffer list
 
-
-" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-" delays and poor user experience
-set updatetime=300
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved
-set signcolumn=yes
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""             For completion
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
 " no select by `"suggest.noselect": true` in your configuration file
@@ -170,50 +199,49 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""             For vimspector
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:vimspector_enable_mappings = 'HUMAN'
 
-set mouse=a
-set ttymouse=sgr
-syntax on
+" mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set autoindent
-set smartindent
-set smarttab
+" for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval
 
-set incsearch
-set ignorecase
-set smartcase
-set hlsearch
+nmap <LocalLeader><F11> <Plug>VimspectorUpFrame
+nmap <LocalLeader><F12> <Plug>VimspectorDownFrame
 
-autocmd vimenter * ++nested colorscheme gruvbox
-set background=dark
-let g:gruvbox_contrast_dark = 'hard'
+nnoremap <Leader>dd :call vimspector#Launch()<CR>
+nnoremap <Leader>de :call vimspector#Reset()<CR>
+nnoremap <Leader>dc :call vimspector#Continue()<CR>
 
-" vv to generate new verical split
+nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
+
+nmap <Leader>dk <Plug>VimspectorRestart
+nmap <Leader>dh <Plug>VimspectorStepOut
+nmap <Leader>dl <Plug>VimspectorStepInto
+nmap <Leader>dj <Plug>VimspectorStepOver
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""             Misc
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
+
+" vv to generate new vertical split and simplify navigation
 nnoremap <silent> vv <C-w>v
-
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-set splitbelow
-set splitright
-
-" vimux config
-" Prompt for a command to run
-map <silent>vp :VimuxPromptCommand<CR>
-" Run last command executed by VimuxRunCommand
-map <silent>vl :VimuxRunLastCommand<CR>
-" Inspect runner pane (jump into copymode)
-map <silent>vi :VimuxInspectRunner<CR>
-" Zoom the tmux runner pane
-map <silent>vz :VimuxZoomRunner<CR>
-
-augroup ActiveWin | au!
-    au WinEnter * setl wincolor=
-    au WinLeave * setl wincolor=CursorLine
-augroup END
+let g:rustfmt_autosave = 1
+let g:rustfmt_emit_files = 1
+let g:rustfmt_fail_silently = 0

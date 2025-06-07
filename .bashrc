@@ -15,6 +15,7 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 
 alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 #default: PS1='[\u@\h \W]\$ '
 PS1="\[$(tput sgr0)\]"
 PS1+="\[$(tput setaf 208; tput bold)\]["
@@ -33,6 +34,7 @@ if command -v tmux &> /dev/null \
     && [ -n "$PS1" ] \
     && [[ ! "$TERM" =~ screen ]] \
     && [[ ! "$TERM" =~ tmux ]] \
+    && [[ ! "$TERM" =~ linux ]] \
     && [ -z "$TMUX" ]; then
     exec tmux new-session -A -s main
 fi
