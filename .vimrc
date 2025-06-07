@@ -28,7 +28,7 @@ set listchars=tab:>-,trail:␣,extends:>,precedes:<
 "set listchars+=space:␣
 set mouse=a         " enable mouse support in all modes
 set ttymouse=sgr    " emit SGR mouse codes - backward compat with xterm2
-set tabstop=8       " how many cols to display tab bytes
+set tabstop=4       " how many cols to display tab bytes
 set shiftwidth=4    " num spaces used in autoindent commands (>>)
 set softtabstop=4   " how many cols to add/del in insertion (-1 == shiftwidth)
 set expandtab       " insert spaces when using tab
