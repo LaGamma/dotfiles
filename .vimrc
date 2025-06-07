@@ -22,11 +22,15 @@ set spell           " use a dictionary to spellcheck
 set spelllang=en_us
 hi SpellBad cterm=underline
 set backspace=indent,eol,start " backspace over everything in insert mode
+set list            " show specific whitespace characters (listed below)
+set listchars=tab:>-,trail:␣,extends:>,precedes:<
+"set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+"set listchars+=space:␣
 set mouse=a         " enable mouse support in all modes
 set ttymouse=sgr    " emit SGR mouse codes - backward compat with xterm2
 set tabstop=8       " how many cols to display tab bytes
 set shiftwidth=4    " num spaces used in autoindent commands (>>)
-"set softtabstop=4   " how many cols to add/del in insertion (-1 == shiftwidth)
+set softtabstop=4   " how many cols to add/del in insertion (-1 == shiftwidth)
 set expandtab       " insert spaces when using tab
 set autoindent      " copy indentation from previous line
 filetype plugin indent on " filetype aware indentation rules
@@ -234,6 +238,16 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g'\"" | endif
 endif
+
+" cut trailing whitespace from file
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+command! TrimWhitespace call TrimWhitespace()
+" auto trim before writing to file
+autocmd BufWritePre * call TrimWhitespace()
 
 " vv to generate new vertical split and simplify navigation
 nnoremap <silent> vv <C-w>v
