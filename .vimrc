@@ -17,13 +17,13 @@ set listchars=tab:>-,trail:␣,extends:>,precedes:<
 "set listchars+=space:␣
 set mouse=a         " enable mouse support in all modes
 set ttymouse=sgr    " emit SGR mouse codes - backward compat with xterm2
-set tabstop=4       " how many cols to display tab bytes
+set tabstop=4       " how many cols to display a tab byte
 set shiftwidth=4    " num spaces used in autoindent commands (>>)
 set softtabstop=4   " how many cols to add/del in insertion (-1 == shiftwidth)
 set expandtab       " insert spaces when using tab
 set autoindent      " copy indentation from previous line
 filetype plugin indent on " filetype aware indentation rules
-"set smartindent    " basic C-like identing deprecated by above
+"set smartindent    " basic C-like indenting deprecated by above
 "set smarttab       " only meaningful if expandtab & softtabstop != shiftwidth
 set incsearch       " incrementally display results of search as typing
 set ignorecase      " case insensitive searching
@@ -54,8 +54,9 @@ if isdirectory($HOME."/.vim/pack/plugins/start/coc.nvim")
   " other plugin before putting this into your config
   inoremap <silent><expr> <TAB>
         \ coc#pum#visible() ? coc#pum#next(1) :
-        \ CheckBackspace() ? "\<Tab>" :
+        \ CheckBackspace() ? "\<TAB>" :
         \ coc#refresh()
+
   inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
   " Make <CR> to accept selected completion item or notify coc.nvim to format
@@ -198,6 +199,7 @@ endif
 ""             For vimspector
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory($HOME."/.vim/pack/plugins/start/vimspector")
+  let g:vimspector_install_gadgets = ['debugpy','vscode-cpptools','CodeLLDB']
   let g:vimspector_enable_mappings = 'HUMAN'
 
   " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
