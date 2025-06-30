@@ -33,6 +33,8 @@ set updatetime=300  " default 4000 ms leads to delays for CursorHold events
 set signcolumn=yes  " always show or diagnostics would shift text
 set colorcolumn=80  " mark col as a soft-limit/length warning
 "set cmdheight=2
+let &t_SI = "\e[6 q" " insert mode blink bar cursor
+let &t_EI = "\e[2 q" " normal mode blink block cursor
 set viminfo=%,<800,'10,/50,:100,h,f0,n~/.vim/cache/.viminfo
 "           | |    |   |   |    | |  + viminfo file path
 "           | |    |   |   |    | + file marks 0-9,A-Z 0=NOT stored
