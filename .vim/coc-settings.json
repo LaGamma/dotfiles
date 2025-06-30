@@ -1,0 +1,10 @@
+{
+    "languageserver": {
+        "mojo-lsp-server": {
+            "command": "mojo-lsp-server",
+            "args": [],
+            "filetypes": ["mojo"],
+            "rootPatterns": ["pixi.toml"]
+        }
+    }
+}
